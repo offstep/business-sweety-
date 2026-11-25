@@ -1,0 +1,24 @@
+name: Décompresser le projet
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Décompresser
+        run: |
+          f=$(ls *.zip | head -1)
+          unzip -q "$f" -d /tmp/x
+          rm -rf /tmp/x/sweety-business/.github
+          cp -a /tmp/x/sweety-business/. .
+          rm "$f"
+      - name: Enregistrer
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Projet décompressé"
+          git push
