@@ -1,0 +1,8 @@
+import { createClient } from '@supabase/supabase-js';
+
+const url = import.meta.env.VITE_SUPABASE_URL;
+const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Clé publique (anon / publishable) uniquement. La sécurité repose sur les politiques RLS.
+export const configured = Boolean(url && key);
+export const sb = createClient(url || 'http://localhost:54321', key || 'missing-key');

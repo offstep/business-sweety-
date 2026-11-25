@@ -1,0 +1,64 @@
+/* Administration : mêmes ombres douces et mêmes couleurs que la boutique */
+.admin { max-width: 1100px; margin: 0 auto; padding: 12px 12px 48px; }
+.admin-nav { display: flex; gap: 6px; align-items: center; overflow-x: auto; padding: 8px 12px; margin-bottom: 20px; }
+.admin-nav a { padding: 10px 14px; border-radius: 999px; font-weight: 700; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.admin-nav a:hover { background: var(--bg-soft); color: var(--blue); }
+.admin-nav form { margin-left: auto; }
+.admin h1, .admin .login h1 { font-size: 24px; margin: 8px 0 16px; }
+.admin h2 { font-size: 18px; margin: 28px 0 12px; }
+.admin .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.admin .muted { color: var(--ink-muted); }
+
+.admin input, .admin select, .admin textarea {
+  width: 100%; min-height: 48px; padding: 12px 14px; font: 500 16px var(--font);
+  color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+}
+.admin input[type="checkbox"] { width: 20px; min-height: 20px; accent-color: var(--blue); }
+.admin input:focus, .admin select:focus, .admin textarea:focus { outline: 3px solid rgba(31, 63, 209, .25); border-color: var(--blue); }
+.admin label { display: grid; gap: 6px; font-weight: 700; font-size: 14px; }
+.admin label.check { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+
+.admin .form-col { display: grid; gap: 14px; padding: 20px 16px; }
+.admin .form-row { display: grid; gap: 10px; padding: 16px; margin-bottom: 20px; }
+.admin .two { display: grid; gap: 14px; }
+
+.admin .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.admin .grid--thumbs { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+.admin .cat, .admin .prod, .admin .thumb { overflow: hidden; text-decoration: none; color: inherit; }
+.admin .cat { grid-column: 1 / -1; }
+.admin .cat-body { display: grid; gap: 10px; padding: 14px; }
+.admin .cat-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 0 14px 14px; }
+.admin .cat-actions a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.admin .prod-body { display: grid; gap: 4px; padding: 12px; }
+.admin .thumb form { padding: 8px; text-align: center; }
+.admin .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.admin .stat { display: grid; gap: 4px; padding: 20px; text-decoration: none; color: inherit; }
+.admin .stat b { font-size: 32px; }
+
+.admin .link-danger { background: none; border: 0; padding: 8px 0; font: 700 14px var(--font); color: var(--red); cursor: pointer; }
+.admin .msg { padding: 12px 14px; border-radius: 14px; font-weight: 600; }
+.admin .msg--ok { background: #e8f7ee; color: #0c6b35; }
+.admin .msg--err { background: #fdecee; color: #a51b2d; }
+
+.admin .login { min-height: 100dvh; display: grid; place-items: center; padding: 16px; }
+.admin .login-card { display: grid; gap: 14px; width: 100%; max-width: 380px; padding: 24px 20px; }
+
+@media (min-width: 768px) {
+  .admin .two { grid-template-columns: 1fr 1fr; }
+  .admin .form-row { grid-template-columns: 1fr 1fr auto; align-items: center; }
+  .admin .grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .admin .cat { grid-column: auto; }
+}
+
+/* ===== Ajouts : classes utilisées par l'éditeur de variantes/suppléments (absentes des CSS fournis) ===== */
+.admin .block { display: grid; gap: 12px; padding: 16px; margin-bottom: 16px; }
+.admin .form-inline { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.admin .form-inline input, .admin .form-inline select { width: auto; flex: 1 1 140px; }
+.admin .form-inline input[type="color"] { flex: 0 0 56px; padding: 4px; }
+.admin .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.admin .chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-weight: 700; font-size: 14px; }
+.admin .chip .link-danger { padding: 0 2px; }
+.admin .mini { display: inline-block; width: 28px; }
+.admin .mini--lg { width: 64px; }
+.admin .sup { display: flex; gap: 12px; align-items: center; padding: 0; margin: 0; grid-template-columns: none; }
+.admin .admin-nav button { background: none; }
