@@ -62,3 +62,13 @@
 .admin .mini--lg { width: 64px; }
 .admin .sup { display: flex; gap: 12px; align-items: center; padding: 0; margin: 0; grid-template-columns: none; }
 .admin .admin-nav button { background: none; }
+
+/* ===== Catégories (admin) ===== */
+.admin .cat-list { display: grid; gap: 12px; margin-top: 18px; }
+.admin .cat-row { display: flex; gap: 12px; align-items: center; padding: 12px; }
+.admin .cat-img { flex: 0 0 64px; }
+.admin .cat-main { flex: 1; min-width: 0; display: grid; gap: 8px; }
+.admin .cat-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 14px; }
+.admin .cat-actions button:disabled { opacity: .3; }
+.admin .link-img { display: inline; font-weight: 700; font-size: 14px; text-decoration: underline; cursor: pointer; width: auto; }
+.admin .cat-row .form-inline input { flex: 1 1 120px; min-height: 44px; }

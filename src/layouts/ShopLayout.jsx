@@ -2,6 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icons.jsx';
 import Icon3D, { Icon3DDefs } from '../components/Icon3D.jsx';
 import { useLake } from '../hooks/useLake.js';
+import { useReveal } from '../hooks/useReveal.js';
 import BottomNav from '../components/BottomNav.jsx';
 import { useCart } from '../contexts/CartContext.jsx';
 import { useShop } from '../contexts/ShopContext.jsx';
@@ -14,6 +15,7 @@ export default function ShopLayout() {
   const unread = useUnread();
   const navigate = useNavigate();
   useLake();
+  useReveal();
 
   const onSearch = (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export default function ShopLayout() {
           <Link className="icon-btn" to="/notifications" aria-label="Notifications">
             <Icon3D n="bell" />{unread > 0 && <span className="badge">{unread}</span>}
           </Link>
+          <Link className="icon-btn" to="/favoris" aria-label="Favoris"><Icon3D n="heart" /></Link>
         </div>
         <Link className="brand" to="/">
           {safe(s.logo_url) && <img className="brand-logo" src={s.logo_url} alt="" width="36" height="36" />}

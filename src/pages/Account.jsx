@@ -61,6 +61,7 @@ export default function Account() {
           <strong>{profile?.full_name || 'Client'}</strong>
           <span className="muted">{profile?.phone || ''}</span>
         </div>
+        <Link className="btn btn--ghost" to="/favoris">Mes favoris</Link>
         {profile?.role === 'admin' && <Link className="btn btn--ghost" to="/admin">Espace administrateur</Link>}
         <button className="btn btn--ghost" onClick={() => sb.auth.signOut()}>Se déconnecter</button>
       </section>

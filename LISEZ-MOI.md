@@ -66,3 +66,22 @@ Le design d'OFFSTEP est appliqué à Sweety Business : en-tête noir arrondi (cl
 - Pour revenir à l'ancien look : supprimer la ligne `import './styles/theme.css'` dans `src/main.jsx`.
 - Non repris : `fx.js`, `logo.png` et les modules d'OFFSTEP n'étaient pas dans l'envoi. L'effet lac est réécrit ; le nom de la boutique (ou `logo_url` des réglages) remplace le logo.
 - Vérifié : aperçu du thème rendu dans un navigateur de test (en-tête, barre du bas, cartes, boutons) à 390 px, sans débordement horizontal. Pages complètes non testées (pas de réseau ici).
+
+## Palette : Bleu Royal Premium (choisie)
+
+Réglée dans `src/config.js` (`PALETTE = 'royal'`). Autres palettes prêtes : `aqua`, `orchidee`, `rose`.
+Pour comparer sans rien changer : ajoute `?palette=rose` à l'adresse du site (`?palette=reset` pour annuler).
+Les couleurs sont des variables (`theme.css`, `palettes.css`) : une palette = une dizaine de lignes.
+
+## Nouveautés
+
+- **Fiche produit** : galerie tactile (glisser), compteur, miniatures, plein écran avec zoom ; la photo suit la couleur choisie.
+- **Favoris** : cœur sur chaque produit, page `/favoris` (enregistrés sur l'appareil).
+- **Chargement** : emplacements animés au lieu de « Chargement… » ; **plus de page blanche** en cas d'erreur (message + bouton Recharger).
+- **Installation** : le site peut s'ajouter à l'écran d'accueil (manifest + service worker, réseau d'abord : toujours à jour).
+- **Admin** : `Catégories` (ajout, renommage, ordre, visibilité, image, suppression) et `Réglages` (nom, numéro WhatsApp, seuil de stock, logo).
+- **Apparition douce** des blocs au défilement.
+
+## Reste à faire
+
+Voir la liste dans la conversation : admin Promotions, Sections d'accueil, Notifications, Publicités ; commandes (SQL + pages) ; recherche avancée.

@@ -35,6 +35,8 @@ export default function AdminLayout() {
     <div className="admin">
       <nav className="float-card admin-nav">
         <Link to="/admin">Produits</Link>
+        <Link to="/admin/categories">Catégories</Link>
+        <Link to="/admin/reglages">Réglages</Link>
         <Link to="/">Voir la boutique</Link>
         <button className="link-danger" style={{ marginLeft: 'auto' }}
           onClick={async () => { await sb.auth.signOut(); navigate('/compte'); }}>Déconnexion</button>

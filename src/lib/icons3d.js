@@ -17,9 +17,12 @@ export const ART = {
 // Bulle de discussion (WhatsApp), dessinée dans le même style que les autres icônes
 ART.chat = sh + '<path class="f-d" d="M8 12.5h32a4 4 0 0 1 4 4V33a4 4 0 0 1-4 4H22l-9 7v-7H8a4 4 0 0 1-4-4V16.5a4 4 0 0 1 4-4z"/><path class="f-a" d="M8 10h32a4 4 0 0 1 4 4v16.5a4 4 0 0 1-4 4H22l-9 7v-7H8a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z"/><circle class="f-k" cx="15" cy="22" r="2.4"/><circle class="f-k" cx="24" cy="22" r="2.4"/><circle class="f-k" cx="33" cy="22" r="2.4"/><path class="f-g" d="M8 10h32a4 4 0 0 1 4 4v3H4v-3a4 4 0 0 1 4-4z" opacity=".7"/>';
 
-const stops = (id, a, b, x2 = 1, y2 = 1) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`;
+// Cœur (favoris)
+ART.heart = sh + '<path class="f-d" transform="translate(0 2.6)" d="M24 41.5C24 41.5 6 30.5 6 17.5 6 11.7 10.5 7.5 15.8 7.5c3.4 0 6.4 1.8 8.2 4.6 1.8-2.8 4.8-4.6 8.2-4.6C37.5 7.5 42 11.7 42 17.5c0 13-18 24-18 24z"/><path class="f-a" d="M24 41.5C24 41.5 6 30.5 6 17.5 6 11.7 10.5 7.5 15.8 7.5c3.4 0 6.4 1.8 8.2 4.6 1.8-2.8 4.8-4.6 8.2-4.6C37.5 7.5 42 11.7 42 17.5c0 13-18 24-18 24z"/><path class="f-g" d="M11.5 16c.7-3.4 3.4-5.4 6.6-5.2-3.2.8-5.4 2.6-6.6 5.2z"/>';
+
+const stops = (id, a, b, x2 = 1, y2 = 1) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}"><stop offset="0" style="stop-color:${a}"/><stop offset="1" style="stop-color:${b}"/></linearGradient>`;
 export const DEFS = stops('gGrA', '#7A8294', '#2B303B') + stops('gGrB', '#9AA2B2', '#454B59') + stops('gGrD', '#1B1F29', '#07080C')
-  + stops('gAqA', '#B4E1FF', '#2F72EE') + stops('gAqB', '#D6F0FF', '#68AAFF') + stops('gAqD', '#2358C4', '#122C73')
+  + stops('gAqA', 'var(--ic-a1,#B4E1FF)', 'var(--ic-a2,#2F72EE)') + stops('gAqB', 'var(--ic-b1,#D6F0FF)', 'var(--ic-b2,#68AAFF)') + stops('gAqD', 'var(--ic-d1,#2358C4)', 'var(--ic-d2,#122C73)')
   + stops('gSiA', '#FFFFFF', '#AEB7C7') + stops('gSiB', '#FFFFFF', '#D9DFEA') + stops('gSiD', '#7B8497', '#4A5160')
   + '<linearGradient id="gGl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
   + '<radialGradient id="gSh"><stop offset="0" stop-color="#0A0C14" stop-opacity=".34"/><stop offset="1" stop-color="#0A0C14" stop-opacity="0"/></radialGradient>';

@@ -13,7 +13,7 @@ export function useLake() {
       });
     }, { rootMargin: '80px' });
     const seen = new WeakSet();
-    const scan = () => document.querySelectorAll('.pcard, .catlink').forEach((el, i) => {
+    const scan = () => document.querySelectorAll('.pcard-wrap, .catlink').forEach((el, i) => {
       if (seen.has(el)) return;
       seen.add(el); el.style.setProperty('--i', i % 9); io.observe(el);
     });

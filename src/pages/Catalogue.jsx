@@ -1,5 +1,6 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
+import { GridSkeleton } from '../components/Skeleton.jsx';
 import { sb } from '../lib/supabase.js';
 import { useShop } from '../contexts/ShopContext.jsx';
 import { useAsync, must } from '../hooks/useAsync.js';
@@ -32,7 +33,7 @@ export default function Catalogue() {
   };
 
   if (error) return <p className="empty">Impossible de charger le catalogue.<br /><small>{error.message}</small></p>;
-  if (loading) return <p className="empty">Chargement…</p>;
+  if (loading) return <section className="float-section"><GridSkeleton n={6} /></section>;
   if (catSlug && !data.cat) return <p className="empty">Catégorie introuvable.</p>;
 
   return (

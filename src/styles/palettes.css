@@ -1,0 +1,21 @@
+/* Palettes : seules les couleurs changent. Défaut = « aqua » (variables de theme.css).
+   Choisir : src/config.js (PALETTE) ou ?palette=nom dans l'adresse du site. */
+
+/* Bleu Royal Premium : continuité avec l'ancienne identité Sweety */
+html[data-palette="royal"] {
+  --dark: #070b24; --dark-2: #1f3fd1; --dark-3: #26305f; --btn: #0a1030;
+  --aq1: #9db4ff; --aq2: #4f6bff; --halo: #5b6fd6;
+  --ic-a1: #b8c6ff; --ic-a2: #2f4fe0; --ic-b1: #dce4ff; --ic-b2: #7f96ff; --ic-d1: #1b2e96; --ic-d2: #0c1650;
+}
+/* Orchidée : violet doux, élégant */
+html[data-palette="orchidee"] {
+  --dark: #140a1f; --dark-2: #3b1d5e; --dark-3: #3a2a52; --btn: #1a0d2b;
+  --aq1: #c4b5fd; --aq2: #8b5cf6; --halo: #9b87c9;
+  --ic-a1: #e3d8ff; --ic-a2: #8b5cf6; --ic-b1: #f1eaff; --ic-b2: #b79bff; --ic-d1: #5b34b8; --ic-d2: #2e1670;
+}
+/* Rose Sorbet : féminin, gourmand, sans jaune ni doré */
+html[data-palette="rose"] {
+  --dark: #1f0a14; --dark-2: #5a1630; --dark-3: #4a2a38; --btn: #2a0f1c;
+  --aq1: #ffb3d1; --aq2: #ec4899; --halo: #c98aa6;
+  --ic-a1: #ffd6e6; --ic-a2: #ec4899; --ic-b1: #ffe8f1; --ic-b2: #ff8fbd; --ic-d1: #b0245f; --ic-d2: #5c0f30;
+}

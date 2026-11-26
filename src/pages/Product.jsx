@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Img from '../components/Img.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import Gallery from '../components/Gallery.jsx';
+import FavButton from '../components/FavButton.jsx';
+import { ProductSkeleton } from '../components/Skeleton.jsx';
 import { sb } from '../lib/supabase.js';
 import { useShop } from '../contexts/ShopContext.jsx';
 import { useCart } from '../contexts/CartContext.jsx';
@@ -19,14 +22,14 @@ export default function Product() {
     return data ?? null;
   }, [slug]);
 
-  if (loading) return <p className="empty">Chargement…</p>;
+  if (loading) return <ProductSkeleton />;
   if (!p) return <p className="empty">Produit introuvable.</p>;
   return <ProductView key={p.id} p={p} s={s} />;
 }
 
 function ProductView({ p, s }) {
   const { add } = useCart();
-  const images = useMemo(() => sortBy(p.product_images), [p]);
+  const images = useMemo(() => sortBy(p.product_images).filter((im) => safe(im.url)), [p]);
   const types = useMemo(() => sortBy(p.option_types).map((t) => ({ ...t, values: sortBy(t.option_values) })), [p]);
   const sups = useMemo(() => (p.supplements || []).filter((x) => x.is_active !== false), [p]);
 
@@ -101,18 +104,9 @@ function ProductView({ p, s }) {
   return (
     <>
       <section className="float-section">
-        <Img src={images[idx]?.url} alt={p.name} extra="float-img" />
-        {images.length > 1 && (
-          <div className="thumbs">
-            {images.map((im, i) => (
-              <button key={im.id} aria-pressed={i === idx} aria-label={`Photo ${i + 1}`} onClick={() => setIdx(i)}>
-                <Img src={im.url} ratio="img-frame--square" />
-              </button>
-            ))}
-          </div>
-        )}
+        <Gallery images={images} index={idx} onChange={setIdx} name={p.name} />
         {video}
-        <h1 className="sec-title" style={{ marginTop: 18 }}>{p.name}</h1>
+        <div className="title-row"><h1 className="sec-title">{p.name}</h1><FavButton id={p.id} name={p.name} inline /></div>
         <div className="price big-price">{fcfa(p.price)}</div>
         <div className={`stock ${low ? 'stock--low' : 'stock--ok'}`}>{low ? 'Bientôt épuisé' : 'En stock'}</div>
         {p.description && <p style={{ whiteSpace: 'pre-line' }}>{p.description}</p>}
