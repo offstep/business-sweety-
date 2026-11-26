@@ -1,5 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icons.jsx';
+import Icon3D, { Icon3DDefs } from '../components/Icon3D.jsx';
+import { useLake } from '../hooks/useLake.js';
 import BottomNav from '../components/BottomNav.jsx';
 import { useCart } from '../contexts/CartContext.jsx';
 import { useShop } from '../contexts/ShopContext.jsx';
@@ -11,6 +13,7 @@ export default function ShopLayout() {
   const { count } = useCart();
   const unread = useUnread();
   const navigate = useNavigate();
+  useLake();
 
   const onSearch = (e) => {
     e.preventDefault();
@@ -20,17 +23,23 @@ export default function ShopLayout() {
 
   return (
     <>
+      <Icon3DDefs />
       <header className="site-header">
-        <Link className="icon-btn" to="/notifications" aria-label="Notifications">
-          <Icon n="bell" />{unread > 0 && <span className="badge">{unread}</span>}
-        </Link>
+        <div className="hdr-s">
+          <Link className="icon-btn" to="/notifications" aria-label="Notifications">
+            <Icon3D n="bell" />{unread > 0 && <span className="badge">{unread}</span>}
+          </Link>
+        </div>
         <Link className="brand" to="/">
           {safe(s.logo_url) && <img className="brand-logo" src={s.logo_url} alt="" width="36" height="36" />}
           <b>{s.shop_name}</b>
         </Link>
-        <Link className="icon-btn" to="/panier" aria-label="Panier">
-          <Icon n="bag" />{count > 0 && <span className="badge">{count}</span>}
-        </Link>
+        <div className="hdr-r">
+          <Link className="icon-btn" to="/catalogue" aria-label="Catalogue"><Icon3D n="search" /></Link>
+          <Link className="icon-btn" to="/panier" aria-label="Panier">
+            <Icon3D n="bag" />{count > 0 && <span className="badge">{count}</span>}
+          </Link>
+        </div>
       </header>
       <div className="shop shop-top">
         <form className="search search--top" role="search" onSubmit={onSearch}>

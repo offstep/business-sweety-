@@ -1,0 +1,148 @@
+/* ===== Thème OFFSTEP appliqué à Sweety Business =====
+   Chargé APRÈS style.css : il redéfinit les couleurs, la police et l'habillage (en-tête noir, verre dépoli,
+   boutons graphite, accents bleu aqua, icônes 3D, effet « lac ») sans toucher à la structure des pages.
+   Pour revenir à l'ancien look : supprimer l'import de theme.css dans src/main.jsx. */
+
+:root {
+  color-scheme: light;
+  --font: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --ink: #0a0c14;
+  --ink-muted: #667085;
+  --blue: #0a0c14;               /* les interactions passent du bleu royal au graphite */
+  --blue-press: #000;
+  --aq1: #7cc4ff;
+  --aq2: #3b82f6;
+  --aqg: linear-gradient(135deg, #7cc4ff, #3b82f6);
+  --graph: linear-gradient(180deg, #2b2f3b, #0a0c14);
+  --glass: rgba(255, 255, 255, .78);
+  --glass-line: rgba(10, 12, 20, .08);
+  --radius-card: 28px;
+}
+
+:focus-visible { outline: 3px solid var(--aq2); outline-offset: 2px; }
+.btn:focus-visible, a:focus-visible { outline-color: var(--aq2); }
+
+/* Fond : halo gris-bleu en haut, points discrets qui s'estompent */
+body {
+  position: relative; min-height: 100vh; font-family: var(--font);
+  background:
+    radial-gradient(90% 40% at 50% -6%, rgba(112, 134, 168, .22), rgba(255, 255, 255, 0) 62%),
+    radial-gradient(70% 30% at 105% 55%, rgba(10, 12, 20, .05), rgba(255, 255, 255, 0) 70%),
+    #fff;
+  background-repeat: no-repeat;
+}
+body::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 300px; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgba(10, 12, 20, .12) 1px, transparent 1.3px); background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent);
+}
+
+/* Titres */
+.sec-title { font-weight: 600; letter-spacing: -.6px; }
+.price, .big-price { font-weight: 700; letter-spacing: -.3px; }
+.muted, small.muted { color: var(--ink-muted); }
+
+/* Verre : sections, cartes, barre du bas */
+.float-section {
+  background: var(--glass); border: 1px solid var(--glass-line); border-radius: 28px;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 12px 32px -16px rgba(10, 12, 20, .22);
+}
+.float-card {
+  background: rgba(255, 255, 255, .9); border: 1px solid var(--glass-line); border-radius: 28px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 12px 28px -16px rgba(10, 12, 20, .25);
+}
+.float-card:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 18px 34px -16px rgba(10, 12, 20, .32); }
+.float-img { box-shadow: 0 22px 40px -26px rgba(10, 12, 20, .5); }
+.img-frame { background: #eef1f6; }
+
+/* Effet « lac » : seules transform et opacité bougent, 12 cartes au plus (voir hooks/useLake.js) */
+@keyframes fl { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-3px); } }
+.fl.in-view { animation: fl 6.5s ease-in-out infinite; animation-delay: calc(var(--i, 0) * -.7s); }
+.paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .fl.in-view { animation: none; } }
+
+/* En-tête noir arrondi : cloche à gauche, nom au centre, recherche et panier à droite */
+.site-header {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px;
+  background: #000; color: #fff; -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-radius: 0 0 28px 28px; padding: calc(10px + env(safe-area-inset-top, 0px)) 10px 10px;
+  min-height: calc(68px + env(safe-area-inset-top, 0px)); box-shadow: 0 18px 34px -22px rgba(10, 12, 20, .7);
+}
+.site-header .brand { color: #fff; justify-self: center; min-width: 0; }
+.site-header .brand b { font-size: 16px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 43vw; }
+.hdr-s { display: flex; justify-content: flex-start; min-width: 0; }
+.hdr-r { display: flex; justify-content: flex-end; min-width: 0; }
+.site-header .icon-btn { background: transparent; color: #fff; width: 46px; height: 46px; }
+.site-header .badge { background: #fff; color: #000; top: 2px; right: 0; }
+@media (max-width: 360px) { .site-header .icon-btn { width: 40px; } }
+@media (min-width: 768px) { .site-header .brand b { max-width: none; font-size: 19px; } }
+
+/* Barre du bas : verre dépoli, onglet actif en aqua avec soulignement */
+.bnav {
+  max-width: 452px; margin-inline: auto; padding: 6px; border-radius: 32px;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px -16px rgba(10, 12, 20, .35);
+}
+.bnav a { color: var(--ink-muted); font: 600 10px var(--font); min-height: 52px; gap: 3px; align-content: center; background: transparent; }
+.bnav a[aria-current="page"] { color: var(--ink); background: transparent; font-weight: 700; }
+.bnav a[aria-current="page"]::after { content: ""; position: absolute; bottom: -2px; left: 50%; width: 18px; height: 3px; margin-left: -9px; border-radius: 3px; background: var(--aqg); }
+.bnav a.wa { color: var(--green); }
+.bnav .badge, .badge { background: #0a0c14; color: #fff; }
+
+/* Icônes en relief : graphite au repos, aqua si actif, argent dans l'en-tête noir */
+svg.i3, .bnav svg.i3, .icon-btn svg.i3 {
+  display: block; width: 30px; height: 30px; overflow: visible; fill: none; stroke: none;
+  transition: transform .28s var(--ease), filter .28s;
+}
+.i3 .f-a { fill: url(#gGrA); } .i3 .f-b { fill: url(#gGrB); } .i3 .f-d { fill: url(#gGrD); } .i3 .f-k { fill: #eef3fa; }
+.i3 .f-g { fill: url(#gGl); } .i3 .f-s { fill: url(#gSh); } .i3 .f-lens { fill: rgba(150, 205, 255, .3); }
+.i3 .s-a, .i3 .s-b, .i3 .s-d, .i3 .s-g { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.i3 .s-a { stroke: url(#gGrA); stroke-width: 5.6; } .i3 .s-d { stroke: url(#gGrD); stroke-width: 5.6; }
+.i3 .s-b { stroke: url(#gGrB); stroke-width: 4.6; } .i3 .s-g { stroke: rgba(255, 255, 255, .85); stroke-width: 2.4; }
+.bnav a[aria-current="page"] .i3 .f-a { fill: url(#gAqA); } .bnav a[aria-current="page"] .i3 .f-b { fill: url(#gAqB); }
+.bnav a[aria-current="page"] .i3 .f-d { fill: url(#gAqD); } .bnav a[aria-current="page"] .i3 .f-k { fill: #fff; }
+.bnav a[aria-current="page"] .i3 .s-a { stroke: url(#gAqA); } .bnav a[aria-current="page"] .i3 .s-d { stroke: url(#gAqD); }
+.bnav a[aria-current="page"] .i3 .s-b { stroke: url(#gAqB); }
+.bnav a[aria-current="page"] .i3 { transform: translateY(-3px) scale(1.1); filter: drop-shadow(0 7px 7px rgba(47, 114, 238, .42)); }
+.site-header .i3 .f-a { fill: url(#gSiA); } .site-header .i3 .f-b { fill: url(#gSiB); } .site-header .i3 .f-d { fill: url(#gSiD); }
+.site-header .i3 .f-k { fill: #12151d; } .site-header .i3 .f-s { fill: none; }
+.site-header .i3 .s-a { stroke: url(#gSiA); } .site-header .i3 .s-d { stroke: url(#gSiD); } .site-header .i3 .s-b { stroke: url(#gSiB); }
+.site-header .icon-btn:active .i3 { transform: scale(.92); }
+@media (prefers-reduced-motion: reduce) { svg.i3 { transition: none; } }
+
+/* Boutons : graphite avec reflet ; WhatsApp reste vert */
+.btn { background: var(--graph); letter-spacing: .2px; box-shadow: 0 12px 26px -10px rgba(10, 12, 20, .6), inset 0 1px 0 rgba(255, 255, 255, .22); }
+.btn:hover { box-shadow: 0 16px 30px -10px rgba(10, 12, 20, .65), inset 0 1px 0 rgba(255, 255, 255, .22); }
+.btn:active { background: #0a0c14; box-shadow: 0 4px 10px -4px rgba(10, 12, 20, .6); }
+.btn[disabled], .btn[aria-disabled="true"] { background: #d6d9e0; color: #667085; box-shadow: none; opacity: 1; }
+.btn--ghost { background: rgba(255, 255, 255, .85); color: var(--ink); border: 1px solid rgba(10, 12, 20, .16); box-shadow: none; }
+.btn--ghost:active { background: #fff; }
+.btn.wa, .btn--whatsapp { background: var(--green); box-shadow: 0 10px 22px -10px rgba(18, 161, 80, .7), inset 0 1px 0 rgba(255, 255, 255, .25); }
+.btn.wa:active { background: #0e8a43; }
+.notice .btn { background: var(--green); }
+.hero--plain .btn { background: #fff; color: var(--ink); box-shadow: 0 6px 16px rgba(0, 0, 0, .25); }
+
+/* Pastilles, options, onglets : actif en aqua / graphite */
+.chip-link { background: #f1f3f7; border: 1px solid rgba(10, 12, 20, .06); border-radius: 20px; box-shadow: none; font-weight: 600; }
+.chip-link:hover { box-shadow: 0 10px 20px -12px rgba(10, 12, 20, .35); }
+.opt { border-radius: 999px; border-color: rgba(10, 12, 20, .12); background: rgba(255, 255, 255, .85); font-weight: 600; }
+.opt[aria-pressed="true"] { background: var(--aqg); color: var(--ink); border-color: transparent; box-shadow: 0 8px 20px -10px rgba(59, 130, 246, .7); }
+.thumbs button[aria-pressed="true"] { border-color: var(--aq2); }
+.tabs a { background: #f1f3f7; font-weight: 600; }
+.tabs a[aria-current="page"] { background: var(--graph); color: #fff; }
+.qty button { border: 1px solid rgba(10, 12, 20, .14); background: rgba(255, 255, 255, .9); box-shadow: none; }
+
+/* Champs */
+.search input, .auth input { border: 1px solid rgba(10, 12, 20, .12); background: rgba(255, 255, 255, .88); }
+.search input:focus, .auth input:focus { outline: 3px solid rgba(59, 130, 246, .3); border-color: var(--aq2); }
+.search--top input { border-color: rgba(10, 12, 20, .08); }
+.search-go { background: var(--graph); }
+
+/* Accueil : bannière sombre à halo bleu, bandeau noir à liseré aqua */
+.hero--plain { position: relative; background: radial-gradient(120% 140% at 0% 0%, #1b2a4a, #0a0c14 62%); }
+.hero--plain::before { content: ""; position: absolute; left: -20%; right: -20%; top: -45%; height: 80%; background: radial-gradient(closest-side, rgba(124, 196, 255, .35), transparent); pointer-events: none; }
+.hero--plain > * { position: relative; }
+.pill-banner { background: #0a0c14; border-bottom: 3px solid var(--aq1); border-radius: 24px; padding: 14px 18px; font-size: 14px; font-weight: 500; box-shadow: none; }

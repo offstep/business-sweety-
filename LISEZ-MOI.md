@@ -57,3 +57,12 @@ Doublons non repris : `BottomNav (1).js`, `HomeSections (1).js`, `layout (1).js`
 - Fonctions d'aide absentes des fichiers (`uploadImage`, `slugify`, `requireAdmin`) réécrites ; nom du bucket à confirmer.
 - Ajout au design : le bouton WhatsApp est maintenant vert (la classe `.wa` n'avait pas de style).
 - Le panier garde la même clé `localStorage` (`sb_cart`) : les paniers existants sont conservés.
+
+## Thème OFFSTEP (ajouté)
+
+Le design d'OFFSTEP est appliqué à Sweety Business : en-tête noir arrondi (cloche à gauche, nom au centre, recherche + panier à droite), barre du bas en verre dépoli avec icônes 3D (aqua sur l'onglet actif), boutons graphite, accents bleu aqua, fond à points, effet « lac » sur les cartes produits, police Space Grotesk. Le bouton WhatsApp reste vert, les prix restent noirs.
+
+- Fichiers : `src/styles/theme.css` (thème, chargé après `style.css`), `src/lib/icons3d.js` + `src/components/Icon3D.jsx` (icônes), `src/hooks/useLake.js` (effet lac).
+- Pour revenir à l'ancien look : supprimer la ligne `import './styles/theme.css'` dans `src/main.jsx`.
+- Non repris : `fx.js`, `logo.png` et les modules d'OFFSTEP n'étaient pas dans l'envoi. L'effet lac est réécrit ; le nom de la boutique (ou `logo_url` des réglages) remplace le logo.
+- Vérifié : aperçu du thème rendu dans un navigateur de test (en-tête, barre du bas, cartes, boutons) à 390 px, sans débordement horizontal. Pages complètes non testées (pas de réseau ici).
