@@ -1,20 +1,42 @@
 name: Décompresser le projet
+
 on:
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   unzip:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Décompresser
         run: |
           f=$(ls *.zip | head -1)
+
+          rm -rf /tmp/x
+          mkdir -p /tmp/x
+
           unzip -q "$f" -d /tmp/x
-          rm -rf /tmp/x/sweety-business/.github
-          cp -a /tmp/x/sweety-business/. .
+
+          # Détecte automatiquement si le ZIP contient
+          # un dossier racine ou directement les fichiers du projet
+          dirs=$(find /tmp/x -mindepth 1 -maxdepth 1 -type d | wc -l)
+
+          if [ "$dirs" -eq 1 ] && [ "$(find /tmp/x -mindepth 1 -maxdepth 1 -type f | wc -l)" -eq 0 ]; then
+            src=$(find /tmp/x -mindepth 1 -maxdepth 1 -type d | head -1)
+          else
+            src="/tmp/x"
+          fi
+
+          # Copie le projet sans écraser le workflow GitHub
+          rsync -a --exclude='.github' "$src/" ./
+
           rm "$f"
+
       - name: Enregistrer
         run: |
           git config user.name "github-actions"
