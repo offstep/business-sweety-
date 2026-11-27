@@ -1,49 +1,45 @@
-// Calcul des promotions (affichage du panier). Le montant définitif est confirmé par la vendeuse / au paiement.
-import { fcfa } from './helpers.js';
+import { fcfa } from './utils';
 
-const valid = (p, now = Date.now()) =>
-  p.is_active && (!p.starts_at || new Date(p.starts_at) <= now) && (!p.ends_at || new Date(p.ends_at) >= now);
+// Aperçu du prix dans le panier. Le prix FINAL est toujours recalculé par la base de données (fonction create_order) :
+// ce calcul reproduit ses règles pour que le client voie la même chose avant de commander.
+const live = (p, now = Date.now()) => p.is_active !== false
+  && (!p.starts_at || new Date(p.starts_at) <= now) && (!p.ends_at || new Date(p.ends_at) >= now);
 
-export const lineTotal = (l) => (l.unitPrice + l.supplementsPerUnit) * l.qty;
+export const lineTotal = (l) => (l.unitPrice + (l.supplementsPerUnit || 0)) * l.qty;
 
-export const describePromo = (p) =>
-  (p.type === 'free_shipping' ? 'la livraison gratuite' : p.type === 'gift' ? 'votre cadeau' : `-${p.discount_percent} %`);
+function measure(p, lines) {
+  const ls = lines.filter((l) => p.applies_to_all || (p.product_ids || []).includes(l.productId));
+  const qty = ls.reduce((n, l) => n + l.qty, 0);
+  const amount = ls.reduce((n, l) => n + lineTotal(l), 0);
+  return { amount, metric: p.threshold_kind === 'quantity' ? qty : amount };
+}
 
-export function computePricing({ lines, promotions }) {
-  const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
-  const subtotal = sum(lines, lineTotal);
-  const evals = promotions.filter((p) => valid(p)).map((p) => {
-    const el = p.applies_to_all ? lines : lines.filter((l) => p.product_ids?.includes(l.productId));
-    const qty = sum(el, (l) => l.qty);
-    const amount = sum(el, lineTotal);
-    const metric = p.threshold_kind === 'quantity' ? qty : amount;
-    return { p, metric, amount, met: lines.length > 0 && metric >= p.threshold };
-  });
-  const met = evals.filter((e) => e.met);
-  const best = met
-    .filter((e) => e.p.type === 'quantity_discount' || e.p.type === 'amount_discount')
-    .map((e) => ({ ...e, value: Math.round((e.amount * e.p.discount_percent) / 100) }))
-    .sort((a, b) => b.value - a.value)[0]; // une seule réduction : la plus avantageuse
-  const unmet = evals
-    .filter((e) => !e.met && lines.length)
-    .sort((a, b) => (a.p.threshold - a.metric) / a.p.threshold - (b.p.threshold - b.metric) / b.p.threshold)[0];
-  const discount = best?.value ?? 0;
-  return {
-    subtotal,
-    discount,
-    discountPromo: best?.p ?? null,
-    freeShipping: met.some((e) => e.p.type === 'free_shipping'),
-    gifts: met.filter((e) => e.p.type === 'gift').map((e) => e.p),
-    total: Math.max(0, subtotal - discount),
-    hasAutoPromo: met.length > 0, // si vrai : champ code promo masqué
-    next: unmet ? { promo: unmet.p, missing: unmet.p.threshold - unmet.metric, kind: unmet.p.threshold_kind } : null,
-  };
+export function computePricing({ lines, promotions, giftNames = {} }) {
+  const subtotal = lines.reduce((n, l) => n + lineTotal(l), 0);
+  let discount = 0, discountPromo = null, freeShipping = false, any = false, next = null;
+  const gifts = [];
+  for (const p of promotions) {
+    if (!live(p)) continue;
+    const m = measure(p, lines);
+    if (m.metric >= p.threshold) {
+      any = true; // une seule réduction : la plus avantageuse
+      if (p.type === 'quantity_discount' || p.type === 'amount_discount') {
+        const v = Math.round((m.amount * p.discount_percent) / 100);
+        if (v > discount) { discount = v; discountPromo = p; }
+      } else if (p.type === 'free_shipping') freeShipping = true;
+      else if (p.type === 'gift' && p.gift_product_id) gifts.push({ name: giftNames[p.gift_product_id] || 'Cadeau' });
+    } else {
+      const missing = p.threshold - m.metric, ratio = missing / p.threshold;
+      if (!next || ratio < next.ratio) next = { promo: p, missing, ratio };
+    }
+  }
+  return { subtotal, discount, discountPromo, freeShipping, gifts, total: subtotal - discount, hasAutoPromo: any, next };
 }
 
 export function nextPromoText(n) {
   if (!n) return '';
-  const w = describePromo(n.promo);
-  return n.kind === 'quantity'
-    ? `Encore ${n.missing} article${n.missing > 1 ? 's' : ''} pour obtenir ${w}.`
-    : `Plus que ${fcfa(n.missing)} pour obtenir ${w}.`;
+  const { promo: p, missing } = n;
+  const need = p.threshold_kind === 'quantity' ? `${missing} article${missing > 1 ? 's' : ''}` : fcfa(missing);
+  const what = p.type === 'free_shipping' ? 'la livraison offerte' : p.type === 'gift' ? 'un cadeau offert' : `-${p.discount_percent} %`;
+  return `Ajoute encore ${need} pour profiter de ${what}.`;
 }

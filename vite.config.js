@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// VITE_BASE = "/nom-du-depot/" sur GitHub Pages (fourni automatiquement par le workflow).
-// Par défaut "./" : chemins relatifs, qui fonctionnent partout avec HashRouter.
+// base './' : le site fonctionne sur GitHub Pages (offstep.github.io/Sweety-/) sans réglage supplémentaire.
 export default defineConfig({
+  base: './',
   plugins: [react()],
-  base: process.env.VITE_BASE || './',
 });

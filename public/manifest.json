@@ -1,0 +1,23 @@
+{
+  "id": "./",
+  "name": "Sweety Business",
+  "short_name": "Sweety",
+  "description": "Boutique en ligne Sweety Business",
+  "lang": "fr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1f3fd1",
+  "categories": ["shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Catalogue", "url": "./#/catalogue", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Mon panier", "url": "./#/panier", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

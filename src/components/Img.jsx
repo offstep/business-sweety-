@@ -1,10 +1,10 @@
-import { safe } from '../lib/helpers.js';
+import { safe } from '../lib/utils';
 
-// Cadre d'image à proportions fixes : l'image remplit toujours son cadre sans déformation.
-export default function Img({ src, ratio = '', alt = '', extra = '', eager = false }) {
+// Cadre d'image avec ratio (img-frame--square, --wide, --banner…) ; vide si l'URL n'est pas valide.
+export default function Img({ src, ratio = '', alt = '', extra = '' }) {
   return (
-    <div className={`img-frame ${ratio} ${extra}`.trim()}>
-      {safe(src) ? <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" /> : null}
+    <div className={['img-frame', ratio, extra].filter(Boolean).join(' ')}>
+      {safe(src) ? <img src={src} alt={alt || ''} loading="lazy" decoding="async" /> : null}
     </div>
   );
 }
